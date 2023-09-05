@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:responder/screens/pages/add_report_page.dart';
 
 import '../widgets/text_widget.dart';
 
@@ -30,7 +31,12 @@ class HomeScreen extends StatelessWidget {
             const SizedBox(
               height: 20,
             ),
-            card('REPORT ACCIDENT', Icons.report),
+            GestureDetector(
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const AddReportPage()));
+                },
+                child: card('REPORT ACCIDENT', Icons.report)),
             const SizedBox(
               height: 20,
             ),
