@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:responder/screens/pages/add_report_page.dart';
+import 'package:responder/screens/pages/coping_main_page.dart';
 
 import '../widgets/text_widget.dart';
 
@@ -40,7 +41,12 @@ class HomeScreen extends StatelessWidget {
             const SizedBox(
               height: 20,
             ),
-            card('DISASTER COPING TIPS', Icons.warning),
+            GestureDetector(
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const CopingMainScreen()));
+                },
+                child: card('DISASTER COPING TIPS', Icons.warning)),
             const SizedBox(
               height: 20,
             ),
