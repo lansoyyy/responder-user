@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:responder/screens/pages/add_report_page.dart';
 import 'package:responder/screens/pages/coping_main_page.dart';
+import 'package:responder/screens/pages/first_aid_page.dart';
 
 import '../widgets/text_widget.dart';
 
@@ -50,7 +51,12 @@ class HomeScreen extends StatelessWidget {
             const SizedBox(
               height: 20,
             ),
-            card('LEARN FIRST AID', Icons.medical_information),
+            GestureDetector(
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const FirstAidScreen()));
+                },
+                child: card('LEARN FIRST AID', Icons.medical_information)),
             const SizedBox(
               height: 20,
             ),
