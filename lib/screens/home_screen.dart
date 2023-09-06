@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:responder/screens/pages/add_report_page.dart';
 import 'package:responder/screens/pages/coping_main_page.dart';
 import 'package:responder/screens/pages/first_aid_page.dart';
+import 'package:responder/screens/pages/map_tab.dart';
+import 'package:responder/screens/pages/weather_page.dart';
 
 import '../widgets/text_widget.dart';
 
@@ -60,11 +62,21 @@ class HomeScreen extends StatelessWidget {
             const SizedBox(
               height: 20,
             ),
-            card('WEATHER ALERTS', Icons.sunny),
+            GestureDetector(
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const WeatherScreen()));
+                },
+                child: card('WEATHER ALERTS', Icons.sunny)),
             const SizedBox(
               height: 20,
             ),
-            card('TRACKING', Icons.map_outlined),
+            GestureDetector(
+                onTap: () {
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => const MapTab()));
+                },
+                child: card('TRACKING', Icons.map_outlined)),
           ],
         ),
       ),
