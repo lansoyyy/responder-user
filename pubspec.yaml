@@ -38,6 +38,11 @@ dependencies:
   fluttertoast:
   google_maps_flutter:
   url_launcher:
+  firebase_core:
+  cloud_firestore:
+  firebase_storage:
+  firebase_auth:
+  get_storage:
 dev_dependencies:
   flutter_test:
     sdk: flutter
