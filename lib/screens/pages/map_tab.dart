@@ -6,7 +6,9 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../../widgets/text_widget.dart';
 
 class MapTab extends StatefulWidget {
-  const MapTab({super.key});
+  String? docId;
+
+  MapTab({super.key, required this.docId});
 
   @override
   State<MapTab> createState() => _MapTabState();

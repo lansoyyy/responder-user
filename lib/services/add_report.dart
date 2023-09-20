@@ -15,7 +15,8 @@ Future addReport(
     'imageURL': imageURL,
     'dateTime': DateTime.now(),
     'lat': lat,
-    'long': long
+    'long': long,
+    'responder': ''
   };
 
   await docUser.set(json);

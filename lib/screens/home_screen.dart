@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:responder/screens/pages/add_report_page.dart';
 import 'package:responder/screens/pages/coping_main_page.dart';
 import 'package:responder/screens/pages/first_aid_page.dart';
-import 'package:responder/screens/pages/map_tab.dart';
+import 'package:responder/screens/pages/tracking_tab.dart';
 import 'package:responder/screens/pages/weather_page.dart';
 
 import '../widgets/text_widget.dart';
@@ -18,15 +18,11 @@ class HomeScreen extends StatelessWidget {
           Icons.account_circle_outlined,
         ),
         title: TextWidget(
-          text: 'John Doe',
+          text: 'Home',
           fontSize: 18,
           color: Colors.white,
         ),
-        actions: const [
-          Icon(
-            Icons.notifications_rounded,
-          ),
-        ],
+        centerTitle: true,
       ),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
@@ -73,8 +69,8 @@ class HomeScreen extends StatelessWidget {
             ),
             GestureDetector(
                 onTap: () {
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => const MapTab()));
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const TrackingTab()));
                 },
                 child: card('TRACKING', Icons.map_outlined)),
           ],
