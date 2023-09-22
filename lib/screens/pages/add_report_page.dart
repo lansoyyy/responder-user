@@ -8,6 +8,7 @@ import 'package:responder/widgets/textfield_widget.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:path/path.dart' as path;
 import 'package:image_picker/image_picker.dart';
+import 'package:responder/widgets/toast_widget.dart';
 import 'dart:io';
 import '../../widgets/text_widget.dart';
 
@@ -276,6 +277,8 @@ class _AddReportPageState extends State<AddReportPage> {
                     idImageURL,
                     lat,
                     long);
+
+                showToast('Report added succesfully!');
                 Navigator.of(context).pushReplacement(MaterialPageRoute(
                     builder: (context) => const HomeScreen()));
               },
