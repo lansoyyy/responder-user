@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:responder/screens/home_screen.dart';
 import 'package:responder/services/add_report.dart';
 import 'package:responder/widgets/button_widget.dart';
 import 'package:responder/widgets/textfield_widget.dart';
@@ -69,11 +70,11 @@ class _AddReportPageState extends State<AddReportPage> {
         showDialog(
           context: context,
           barrierDismissible: false,
-          builder: (BuildContext context) => Padding(
-            padding: const EdgeInsets.only(left: 30, right: 30),
+          builder: (BuildContext context) => const Padding(
+            padding: EdgeInsets.only(left: 30, right: 30),
             child: AlertDialog(
                 title: Row(
-              children: const [
+              children: [
                 CircularProgressIndicator(
                   color: Colors.black,
                 ),
@@ -110,6 +111,8 @@ class _AddReportPageState extends State<AddReportPage> {
         print(err);
       }
     }
+
+    setState(() {});
   }
 
   @override
@@ -124,70 +127,71 @@ class _AddReportPageState extends State<AddReportPage> {
         ),
       ),
       body: hasLoaded
-          ? SingleChildScrollView(
-              child: Column(
-                children: [
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  TextFieldWidget(
-                    label: 'Name',
-                    controller: nameController,
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  TextFieldWidget(
-                    label: 'Contact Number',
-                    controller: contactnumberController,
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  TextFieldWidget(
-                    label: 'Address',
-                    controller: addressController,
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  TextFieldWidget(
-                    label: 'Caption',
-                    controller: captionController,
-                  ),
-                  const SizedBox(
-                    height: 30,
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      uploadImage('gallery');
-                    },
-                    child: Container(
-                      height: 100,
-                      width: 300,
-                      decoration: BoxDecoration(
-                          color: Colors.grey,
-                          image: idImageURL != ''
-                              ? DecorationImage(
-                                  image: NetworkImage(idImageURL),
-                                  fit: BoxFit.cover)
-                              : null),
-                      child: const Icon(
-                        Icons.add,
-                        color: Colors.white,
+          ? Center(
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    TextFieldWidget(
+                      label: 'Name',
+                      controller: nameController,
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    TextFieldWidget(
+                      label: 'Contact Number',
+                      controller: contactnumberController,
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    TextFieldWidget(
+                      label: 'Address',
+                      controller: addressController,
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    TextFieldWidget(
+                      label: 'Caption',
+                      controller: captionController,
+                    ),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        uploadImage('gallery');
+                      },
+                      child: Container(
+                        height: 100,
+                        width: 300,
+                        decoration: BoxDecoration(
+                            color: Colors.grey,
+                            image: idImageURL != ''
+                                ? DecorationImage(
+                                    image: NetworkImage(idImageURL),
+                                    fit: BoxFit.cover)
+                                : null),
+                        child: const Icon(
+                          Icons.add,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
-                  ),
-                  const SizedBox(
-                    height: 30,
-                  ),
-                  ButtonWidget(
-                    label: 'Continue',
-                    onPressed: () {
-                      previewDialog();
-                    },
-                  ),
-                ],
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    ButtonWidget(
+                      label: 'Continue',
+                      onPressed: () {
+                        previewDialog();
+                      },
+                    ),
+                  ],
+                ),
               ),
             )
           : const Center(
@@ -243,13 +247,12 @@ class _AddReportPageState extends State<AddReportPage> {
               Container(
                 height: 100,
                 width: 300,
-                decoration: const BoxDecoration(
-                  color: Colors.grey,
-                ),
-                child: const Icon(
-                  Icons.add,
-                  color: Colors.white,
-                ),
+                decoration: BoxDecoration(
+                    color: Colors.grey,
+                    image: idImageURL != ''
+                        ? DecorationImage(
+                            image: NetworkImage(idImageURL), fit: BoxFit.cover)
+                        : null),
               ),
             ],
           ),
@@ -273,7 +276,8 @@ class _AddReportPageState extends State<AddReportPage> {
                     idImageURL,
                     lat,
                     long);
-                Navigator.pop(context);
+                Navigator.of(context).pushReplacement(MaterialPageRoute(
+                    builder: (context) => const HomeScreen()));
               },
               child: TextWidget(
                 text: 'Send',
