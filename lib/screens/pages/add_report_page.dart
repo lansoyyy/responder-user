@@ -1,12 +1,14 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:responder/screens/home_screen.dart';
 import 'package:responder/services/add_report.dart';
 import 'package:responder/widgets/button_widget.dart';
 import 'package:responder/widgets/textfield_widget.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:path/path.dart' as path;
 import 'package:image_picker/image_picker.dart';
+import 'package:responder/widgets/toast_widget.dart';
 import 'dart:io';
 import '../../widgets/text_widget.dart';
 
@@ -110,6 +112,8 @@ class _AddReportPageState extends State<AddReportPage> {
         print(err);
       }
     }
+
+    setState(() {});
   }
 
   List<String> type1 = [
@@ -301,13 +305,12 @@ class _AddReportPageState extends State<AddReportPage> {
               Container(
                 height: 100,
                 width: 300,
-                decoration: const BoxDecoration(
-                  color: Colors.grey,
-                ),
-                child: const Icon(
-                  Icons.add,
-                  color: Colors.white,
-                ),
+                decoration: BoxDecoration(
+                    color: Colors.grey,
+                    image: idImageURL != ''
+                        ? DecorationImage(
+                            image: NetworkImage(idImageURL), fit: BoxFit.cover)
+                        : null),
               ),
             ],
           ),
