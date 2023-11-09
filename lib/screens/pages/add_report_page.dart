@@ -69,11 +69,11 @@ class _AddReportPageState extends State<AddReportPage> {
         showDialog(
           context: context,
           barrierDismissible: false,
-          builder: (BuildContext context) => Padding(
-            padding: const EdgeInsets.only(left: 30, right: 30),
+          builder: (BuildContext context) => const Padding(
+            padding: EdgeInsets.only(left: 30, right: 30),
             child: AlertDialog(
                 title: Row(
-              children: const [
+              children: [
                 CircularProgressIndicator(
                   color: Colors.black,
                 ),
@@ -112,6 +112,15 @@ class _AddReportPageState extends State<AddReportPage> {
     }
   }
 
+  List<String> type1 = [
+    'Fire',
+    'Hurricane',
+    'Flood',
+    'Earthquake',
+    'Landslide'
+  ];
+  String selected = 'Fire';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -125,69 +134,118 @@ class _AddReportPageState extends State<AddReportPage> {
       ),
       body: hasLoaded
           ? SingleChildScrollView(
-              child: Column(
-                children: [
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  TextFieldWidget(
-                    label: 'Name',
-                    controller: nameController,
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  TextFieldWidget(
-                    label: 'Contact Number',
-                    controller: contactnumberController,
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  TextFieldWidget(
-                    label: 'Address',
-                    controller: addressController,
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  TextFieldWidget(
-                    label: 'Caption',
-                    controller: captionController,
-                  ),
-                  const SizedBox(
-                    height: 30,
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      uploadImage('gallery');
-                    },
-                    child: Container(
-                      height: 100,
-                      width: 300,
+              child: Center(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    TextFieldWidget(
+                      label: 'Name',
+                      controller: nameController,
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    TextFieldWidget(
+                      label: 'Contact Number',
+                      controller: contactnumberController,
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    TextFieldWidget(
+                      label: 'Address',
+                      controller: addressController,
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 10, bottom: 10),
+                      child: TextWidget(
+                          text: 'Incident Type:',
+                          fontSize: 14,
+                          color: Colors.black),
+                    ),
+                    Container(
                       decoration: BoxDecoration(
-                          color: Colors.grey,
-                          image: idImageURL != ''
-                              ? DecorationImage(
-                                  image: NetworkImage(idImageURL),
-                                  fit: BoxFit.cover)
-                              : null),
-                      child: const Icon(
-                        Icons.add,
-                        color: Colors.white,
+                          border: Border.all(
+                            color: Colors.black,
+                          ),
+                          borderRadius: BorderRadius.circular(5)),
+                      child: DropdownButton<String>(
+                        underline: const SizedBox(),
+                        value: selected,
+                        items: type1.map((String item) {
+                          return DropdownMenuItem<String>(
+                            value: item,
+                            child: Center(
+                              child: SizedBox(
+                                width: 300,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(5.0),
+                                  child: Text(
+                                    item,
+                                    style: const TextStyle(
+                                        color: Colors.black,
+                                        fontFamily: 'QRegular',
+                                        fontSize: 14),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          );
+                        }).toList(),
+                        onChanged: (newValue) {
+                          setState(() {
+                            selected = newValue.toString();
+                          });
+                        },
                       ),
                     ),
-                  ),
-                  const SizedBox(
-                    height: 30,
-                  ),
-                  ButtonWidget(
-                    label: 'Continue',
-                    onPressed: () {
-                      previewDialog();
-                    },
-                  ),
-                ],
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    TextFieldWidget(
+                      label: 'Caption',
+                      controller: captionController,
+                    ),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        uploadImage('gallery');
+                      },
+                      child: Container(
+                        height: 100,
+                        width: 300,
+                        decoration: BoxDecoration(
+                            color: Colors.grey,
+                            image: idImageURL != ''
+                                ? DecorationImage(
+                                    image: NetworkImage(idImageURL),
+                                    fit: BoxFit.cover)
+                                : null),
+                        child: const Icon(
+                          Icons.add,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    ButtonWidget(
+                      label: 'Continue',
+                      onPressed: () {
+                        previewDialog();
+                      },
+                    ),
+                  ],
+                ),
               ),
             )
           : const Center(
@@ -272,7 +330,8 @@ class _AddReportPageState extends State<AddReportPage> {
                     captionController.text,
                     idImageURL,
                     lat,
-                    long);
+                    long,
+                    selected);
                 Navigator.pop(context);
               },
               child: TextWidget(
