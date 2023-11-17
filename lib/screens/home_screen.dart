@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:responder/screens/pages/add_report_page.dart';
 import 'package:responder/screens/pages/coping_main_page.dart';
 import 'package:responder/screens/pages/first_aid_page.dart';
+import 'package:responder/screens/pages/notif_page.dart';
 import 'package:responder/screens/pages/tracking_tab.dart';
 import 'package:responder/screens/pages/weather_page.dart';
 
@@ -23,6 +24,17 @@ class HomeScreen extends StatelessWidget {
           color: Colors.white,
         ),
         centerTitle: true,
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => const NotifPage()));
+            },
+            icon: const Icon(
+              Icons.notifications,
+            ),
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
