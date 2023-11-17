@@ -121,10 +121,12 @@ class NotifPage extends StatelessWidget {
                         ),
                         title: TextWidget(
                             text:
-                                '${data.docs[index]['name']} submitted a report: ${data.docs[index]['caption']}',
+                                'EMERGENCY ALERT: ${data.docs[index]['caption']}'
+                                    .toUpperCase(),
                             fontSize: 14),
                         subtitle: TextWidget(
-                            text: data.docs[index]['address'], fontSize: 12),
+                            text: 'by: ${data.docs[index]['name']}',
+                            fontSize: 12),
                         trailing: const Icon(
                           Icons.pending,
                         ),
