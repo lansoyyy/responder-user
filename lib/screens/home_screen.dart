@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:responder/screens/pages/add_report_page.dart';
 import 'package:responder/screens/pages/coping_main_page.dart';
@@ -24,13 +25,46 @@ class HomeScreen extends StatelessWidget {
         ),
         centerTitle: true,
         actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => const NotifPage()));
-            },
-            icon: const Icon(
-              Icons.notifications,
+          Padding(
+            padding: const EdgeInsets.only(right: 20, top: 10),
+            child: Badge(
+              label: StreamBuilder<QuerySnapshot>(
+                  stream: FirebaseFirestore.instance
+                      .collection('Notifs')
+                      .snapshots(),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<QuerySnapshot> snapshot) {
+                    if (snapshot.hasError) {
+                      print('error');
+                      return const Center(child: Text('Error'));
+                    }
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Padding(
+                        padding: EdgeInsets.only(top: 50),
+                        child: Center(
+                            child: CircularProgressIndicator(
+                          color: Colors.black,
+                        )),
+                      );
+                    }
+
+                    final data = snapshot.requireData;
+                    return TextWidget(
+                      text: data.docs.length.toString(),
+                      fontSize: 12,
+                      color: Colors.white,
+                      fontFamily: 'Bold',
+                    );
+                  }),
+              child: IconButton(
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const NotifPage()));
+                },
+                icon: const Icon(
+                  Icons.notifications,
+                ),
+              ),
             ),
           ),
         ],

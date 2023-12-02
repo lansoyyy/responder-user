@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:responder/screens/home_screen.dart';
 import 'package:responder/services/add_report.dart';
 import 'package:responder/widgets/button_widget.dart';
 import 'package:responder/widgets/textfield_widget.dart';
@@ -121,7 +120,8 @@ class _AddReportPageState extends State<AddReportPage> {
     'Hurricane',
     'Flood',
     'Earthquake',
-    'Landslide'
+    'Landslide',
+    'Others'
   ];
   String selected = 'Fire';
 
@@ -335,6 +335,7 @@ class _AddReportPageState extends State<AddReportPage> {
                     lat,
                     long,
                     selected);
+                showToast('Reported succesfully!');
                 Navigator.pop(context);
               },
               child: TextWidget(
