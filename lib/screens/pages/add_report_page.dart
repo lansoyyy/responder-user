@@ -116,6 +116,15 @@ class _AddReportPageState extends State<AddReportPage> {
     setState(() {});
   }
 
+  List<String> type1 = [
+    'Fire',
+    'Hurricane',
+    'Flood',
+    'Earthquake',
+    'Landslide'
+  ];
+  String selected = 'Fire';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -128,12 +137,14 @@ class _AddReportPageState extends State<AddReportPage> {
         ),
       ),
       body: hasLoaded
-          ? Center(
-              child: SingleChildScrollView(
+          ? SingleChildScrollView(
+              child: Center(
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
+                    const SizedBox(
+                      height: 20,
+                    ),
                     TextFieldWidget(
                       label: 'Name',
                       controller: nameController,
@@ -151,6 +162,52 @@ class _AddReportPageState extends State<AddReportPage> {
                     TextFieldWidget(
                       label: 'Address',
                       controller: addressController,
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 10, bottom: 10),
+                      child: TextWidget(
+                          text: 'Incident Type:',
+                          fontSize: 14,
+                          color: Colors.black),
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.black,
+                          ),
+                          borderRadius: BorderRadius.circular(5)),
+                      child: DropdownButton<String>(
+                        underline: const SizedBox(),
+                        value: selected,
+                        items: type1.map((String item) {
+                          return DropdownMenuItem<String>(
+                            value: item,
+                            child: Center(
+                              child: SizedBox(
+                                width: 300,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(5.0),
+                                  child: Text(
+                                    item,
+                                    style: const TextStyle(
+                                        color: Colors.black,
+                                        fontFamily: 'QRegular',
+                                        fontSize: 14),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          );
+                        }).toList(),
+                        onChanged: (newValue) {
+                          setState(() {
+                            selected = newValue.toString();
+                          });
+                        },
+                      ),
                     ),
                     const SizedBox(
                       height: 20,
@@ -276,11 +333,9 @@ class _AddReportPageState extends State<AddReportPage> {
                     captionController.text,
                     idImageURL,
                     lat,
-                    long);
-
-                showToast('Report added succesfully!');
-                Navigator.of(context).pushReplacement(MaterialPageRoute(
-                    builder: (context) => const HomeScreen()));
+                    long,
+                    selected);
+                Navigator.pop(context);
               },
               child: TextWidget(
                 text: 'Send',

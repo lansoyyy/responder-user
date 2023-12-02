@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:responder/services/add_notif.dart';
 
 Future addReport(
-    name, contactnumber, address, caption, imageURL, lat, long) async {
+    name, contactnumber, address, caption, imageURL, lat, long, type) async {
   final docUser = FirebaseFirestore.instance.collection('Reports').doc();
 
   final json = {
@@ -21,6 +21,7 @@ Future addReport(
     'day': DateTime.now().day,
     'month': DateTime.now().month,
     'year': DateTime.now().year,
+    'type': type
   };
 
   addNotif(name, contactnumber, address, caption, imageURL, lat, long);
