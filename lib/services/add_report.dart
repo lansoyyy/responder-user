@@ -17,7 +17,10 @@ Future addReport(
     'dateTime': DateTime.now(),
     'lat': lat,
     'long': long,
-    'responder': ''
+    'responder': '',
+    'day': DateTime.now().day,
+    'month': DateTime.now().month,
+    'year': DateTime.now().year,
   };
 
   addNotif(name, contactnumber, address, caption, imageURL, lat, long);
