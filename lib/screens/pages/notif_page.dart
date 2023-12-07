@@ -49,7 +49,12 @@ class NotifPage extends StatelessWidget {
               itemBuilder: (context, index) {
                 return data.docs[index]['status'] == 'Crisis'
                     ? ListTile(
-                        onTap: () {
+                        onTap: () async {
+                          await FirebaseFirestore.instance
+                              .collection('Notifs')
+                              .doc(data.docs[index].id)
+                              .update({'status': 'Read'});
+
                           showDialog(
                               context: context,
                               builder: (context) => AlertDialog(
@@ -132,6 +137,76 @@ class NotifPage extends StatelessWidget {
                         ),
                       )
                     : ListTile(
+                        onTap: () async {
+                          await FirebaseFirestore.instance
+                              .collection('Notifs')
+                              .doc(data.docs[index].id)
+                              .update({'status': 'Read'});
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                content: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    TextWidget(
+                                      text: 'Name: ${data.docs[index]['name']}',
+                                      fontSize: 14,
+                                      fontFamily: 'Regular',
+                                    ),
+                                    TextWidget(
+                                      text:
+                                          'Contact Number: ${data.docs[index]['contactnumber']}',
+                                      fontSize: 14,
+                                      fontFamily: 'Regular',
+                                    ),
+                                    TextWidget(
+                                      text:
+                                          'Address: ${data.docs[index]['address']}',
+                                      fontSize: 14,
+                                      fontFamily: 'Regular',
+                                    ),
+                                    TextWidget(
+                                      text:
+                                          'Caption: ${data.docs[index]['caption']}',
+                                      fontSize: 14,
+                                      fontFamily: 'Regular',
+                                    ),
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                    Container(
+                                      height: 100,
+                                      width: 300,
+                                      decoration: BoxDecoration(
+                                          color: Colors.grey,
+                                          image:
+                                              data.docs[index]['imageURL'] != ''
+                                                  ? DecorationImage(
+                                                      image: NetworkImage(
+                                                          data.docs[index]
+                                                              ['imageURL']),
+                                                      fit: BoxFit.cover)
+                                                  : null),
+                                    ),
+                                  ],
+                                ),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: TextWidget(
+                                      text: 'Close',
+                                      fontSize: 18,
+                                    ),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        },
                         leading: const Icon(Icons.notifications),
                         title: TextWidget(
                             text:

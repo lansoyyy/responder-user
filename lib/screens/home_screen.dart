@@ -31,6 +31,7 @@ class HomeScreen extends StatelessWidget {
               label: StreamBuilder<QuerySnapshot>(
                   stream: FirebaseFirestore.instance
                       .collection('Notifs')
+                      .where('status', isEqualTo: 'Pending')
                       .snapshots(),
                   builder: (BuildContext context,
                       AsyncSnapshot<QuerySnapshot> snapshot) {
