@@ -50,7 +50,7 @@ class TrackingTab extends StatelessWidget {
                   onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => MapTab(
-                              docId: data.docs[index].id,
+                              docId: data.docs[index]['responder'],
                             )));
                   },
                   leading: const Icon(Icons.track_changes),

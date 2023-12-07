@@ -74,6 +74,10 @@ class _MapTabState extends State<MapTab> {
 
   @override
   Widget build(BuildContext context) {
+    final Stream<DocumentSnapshot> userData = FirebaseFirestore.instance
+        .collection('Users')
+        .doc(widget.docId)
+        .snapshots();
     CameraPosition kGooglePlex = CameraPosition(
       target: LatLng(lat, long),
       zoom: 14.4746,
@@ -89,13 +93,90 @@ class _MapTabState extends State<MapTab> {
         centerTitle: true,
       ),
       body: hasloaded
-          ? GoogleMap(
-              markers: markers,
-              mapType: MapType.normal,
-              initialCameraPosition: kGooglePlex,
-              onMapCreated: (GoogleMapController controller) {
-                _controller.complete(controller);
-              },
+          ? Stack(
+              children: [
+                GoogleMap(
+                  markers: markers,
+                  mapType: MapType.normal,
+                  initialCameraPosition: kGooglePlex,
+                  onMapCreated: (GoogleMapController controller) {
+                    _controller.complete(controller);
+                  },
+                ),
+                widget.docId != ''
+                    ? StreamBuilder<DocumentSnapshot>(
+                        stream: userData,
+                        builder: (context,
+                            AsyncSnapshot<DocumentSnapshot> snapshot) {
+                          if (!snapshot.hasData) {
+                            return const SizedBox();
+                          } else if (snapshot.hasError) {
+                            return const Center(
+                                child: Text('Something went wrong'));
+                          } else if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return const SizedBox();
+                          }
+                          dynamic data = snapshot.data;
+                          return Align(
+                            alignment: Alignment.bottomCenter,
+                            child: Container(
+                              height: 150,
+                              width: double.infinity,
+                              decoration: const BoxDecoration(
+                                color: Colors.white,
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(20.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    TextWidget(
+                                      text: 'Responder:',
+                                      fontSize: 18,
+                                      fontFamily: 'Bold',
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        const Icon(
+                                          Icons.account_circle,
+                                          size: 50,
+                                        ),
+                                        const SizedBox(
+                                          width: 20,
+                                        ),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            TextWidget(
+                                              text: data['name'],
+                                              fontSize: 16,
+                                            ),
+                                            TextWidget(
+                                              text: data['contactnumber'],
+                                              fontSize: 16,
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          );
+                        })
+                    : const SizedBox()
+              ],
             )
           : const Center(
               child: CircularProgressIndicator(),
