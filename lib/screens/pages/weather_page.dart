@@ -23,7 +23,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
 
   var weatherDescription;
   var temperatureKelvin;
-  var temperatureCelsius;
+  double temperatureCelsius = 0.00;
   var pressure;
   var humidity;
   var windSpeed;
@@ -57,7 +57,6 @@ class _WeatherScreenState extends State<WeatherScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.red,
           title: TextWidget(
             text: 'WEATHER ALERT',
             fontSize: 18,
@@ -67,47 +66,188 @@ class _WeatherScreenState extends State<WeatherScreen> {
         ),
         body: hasLoaded
             ? Container(
+                height: double.infinity,
+                decoration: const BoxDecoration(
+                  image: DecorationImage(
+                      image: AssetImage(
+                        'assets/images/back.jpg',
+                      ),
+                      fit: BoxFit.cover),
+                ),
                 padding: const EdgeInsets.all(16.0),
                 child: SingleChildScrollView(
                   child: Center(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        const SizedBox(height: 20.0),
+                        const SizedBox(height: 10.0),
                         const Icon(
                           Icons.warning,
                           color: Colors.red,
-                          size: 150,
+                          size: 75,
                         ),
-                        const SizedBox(height: 16.0),
-                        Text(
-                          'Weather Description: $weatherDescription',
-                          style: const TextStyle(
-                              fontSize: 16, fontFamily: 'QRegular'),
+                        const SizedBox(height: 10.0),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Card(
+                              child: SizedBox(
+                                height: 150,
+                                width: 150,
+                                child: Center(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(10.0),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        const Icon(
+                                          Icons.info_outline,
+                                          size: 50,
+                                        ),
+                                        const SizedBox(
+                                          height: 5,
+                                        ),
+                                        Text(
+                                          'Description:\n$weatherDescription',
+                                          style: const TextStyle(
+                                              fontSize: 16,
+                                              fontFamily: 'Medium'),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Card(
+                              child: SizedBox(
+                                height: 150,
+                                width: 150,
+                                child: Center(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(10.0),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        const Icon(
+                                          Icons.sunny,
+                                          size: 50,
+                                        ),
+                                        const SizedBox(
+                                          height: 5,
+                                        ),
+                                        Text(
+                                          'Temperature: \n${temperatureCelsius.toStringAsFixed(2)}°C',
+                                          style: const TextStyle(
+                                              fontSize: 16,
+                                              fontFamily: 'Medium'),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 8,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Card(
+                              child: SizedBox(
+                                height: 150,
+                                width: 150,
+                                child: Center(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(10.0),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        const Icon(
+                                          Icons.compare_arrows,
+                                          size: 50,
+                                        ),
+                                        const SizedBox(
+                                          height: 5,
+                                        ),
+                                        Text(
+                                          'Pressure: $pressure hPa',
+                                          style: const TextStyle(
+                                              fontSize: 16,
+                                              fontFamily: 'Medium'),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Card(
+                              child: SizedBox(
+                                height: 150,
+                                width: 150,
+                                child: Center(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(10.0),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        const Icon(
+                                          Icons.heat_pump,
+                                          size: 50,
+                                        ),
+                                        const SizedBox(
+                                          height: 5,
+                                        ),
+                                        Text(
+                                          'Humidity: $humidity%',
+                                          style: const TextStyle(
+                                              fontSize: 16,
+                                              fontFamily: 'Medium'),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                         const SizedBox(height: 8.0),
-                        Text(
-                          'Temperature: $temperatureCelsius°C',
-                          style: const TextStyle(
-                              fontSize: 16, fontFamily: 'QRegular'),
-                        ),
-                        const SizedBox(height: 8.0),
-                        Text(
-                          'Pressure: $pressure hPa',
-                          style: const TextStyle(
-                              fontSize: 16, fontFamily: 'QRegular'),
-                        ),
-                        const SizedBox(height: 8.0),
-                        Text(
-                          'Humidity: $humidity%',
-                          style: const TextStyle(
-                              fontSize: 16, fontFamily: 'QRegular'),
-                        ),
-                        const SizedBox(height: 8.0),
-                        Text(
-                          'Wind Speed: $windSpeed m/s',
-                          style: const TextStyle(
-                              fontSize: 16, fontFamily: 'QRegular'),
+                        Card(
+                          child: SizedBox(
+                            height: 150,
+                            width: 200,
+                            child: Center(
+                              child: Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    const Icon(
+                                      Icons.wind_power,
+                                      size: 50,
+                                    ),
+                                    const SizedBox(
+                                      height: 5,
+                                    ),
+                                    Text(
+                                      'Wind Speed: $windSpeed m/s',
+                                      style: const TextStyle(
+                                          fontSize: 16, fontFamily: 'Medium'),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
                         ),
                         const SizedBox(height: 20.0),
                       ],
