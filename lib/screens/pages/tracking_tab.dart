@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:responder/screens/pages/map_tab.dart';
 import 'package:intl/intl.dart';
@@ -22,8 +23,8 @@ class TrackingTab extends StatelessWidget {
       body: StreamBuilder<QuerySnapshot>(
           stream: FirebaseFirestore.instance
               .collection('Reports')
-              // .where('userId',
-              //     isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+              .where('userId',
+                  isEqualTo: FirebaseAuth.instance.currentUser!.uid)
               .snapshots(),
           builder:
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {

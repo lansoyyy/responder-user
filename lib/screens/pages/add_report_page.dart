@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:responder/screens/pages/tracking_tab.dart';
 import 'package:responder/services/add_report.dart';
 import 'package:responder/widgets/button_widget.dart';
 import 'package:responder/widgets/textfield_widget.dart';
@@ -326,17 +327,25 @@ class _AddReportPageState extends State<AddReportPage> {
             ),
             TextButton(
               onPressed: () {
-                addReport(
-                    nameController.text,
-                    contactnumberController.text,
-                    addressController.text,
-                    captionController.text,
-                    idImageURL,
-                    lat,
-                    long,
-                    selected);
-                showToast('Reported succesfully!');
-                Navigator.pop(context);
+                if (nameController.text == '' ||
+                    contactnumberController.text == '' ||
+                    addressController.text == '' ||
+                    captionController.text == '') {
+                  showToast('Please complete all fields!');
+                } else {
+                  addReport(
+                      nameController.text,
+                      contactnumberController.text,
+                      addressController.text,
+                      captionController.text,
+                      idImageURL,
+                      lat,
+                      long,
+                      selected);
+                  showToast('Reported succesfully!');
+                  Navigator.of(context).pushReplacement(MaterialPageRoute(
+                      builder: (context) => const TrackingTab()));
+                }
               },
               child: TextWidget(
                 text: 'Send',
