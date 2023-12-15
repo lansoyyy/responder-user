@@ -10,7 +10,7 @@ class FloodTab extends StatelessWidget {
       appBar: AppBar(),
       body: Center(
         child: Image.asset(
-          'assets/images/flood.png',
+          'assets/images/flood1.PNG',
           fit: BoxFit.fill,
         ),
       ),
