@@ -301,6 +301,10 @@ class _AddReportPageState extends State<AddReportPage> {
                 controller: captionController,
               ),
               const SizedBox(
+                height: 20,
+              ),
+              TextWidget(text: 'Incident Type: $selected', fontSize: 14),
+              const SizedBox(
                 height: 30,
               ),
               Container(
