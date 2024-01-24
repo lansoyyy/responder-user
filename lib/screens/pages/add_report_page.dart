@@ -154,6 +154,9 @@ class _AddReportPageState extends State<AddReportPage> {
                       height: 20,
                     ),
                     TextFieldWidget(
+                      height: 75,
+                      isNumber: true,
+                      inputType: TextInputType.number,
                       label: 'Contact Number',
                       controller: contactnumberController,
                     ),
@@ -246,7 +249,14 @@ class _AddReportPageState extends State<AddReportPage> {
                     ButtonWidget(
                       label: 'Continue',
                       onPressed: () {
-                        previewDialog();
+                        bool nameValid = hasNumbers(nameController.text);
+                        bool addressValid = hasNumbers(addressController.text);
+                        bool captionValid = hasNumbers(captionController.text);
+                        if (!nameValid && !addressValid && captionValid) {
+                          previewDialog();
+                        } else {
+                          showToast('Invalid input! Cannot Procceed');
+                        }
                       },
                     ),
                   ],
@@ -257,6 +267,14 @@ class _AddReportPageState extends State<AddReportPage> {
               child: CircularProgressIndicator(),
             ),
     );
+  }
+
+  bool hasNumbers(String input) {
+    // Define a regular expression to match any digit
+    RegExp digitRegExp = RegExp(r'\d');
+
+    // Use the hasMatch method to check if the string contains any digits
+    return digitRegExp.hasMatch(input);
   }
 
   previewDialog() {
