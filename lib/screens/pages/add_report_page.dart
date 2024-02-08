@@ -249,10 +249,10 @@ class _AddReportPageState extends State<AddReportPage> {
                     ButtonWidget(
                       label: 'Continue',
                       onPressed: () {
-                        bool nameValid = hasNumbers(nameController.text);
-                        bool addressValid = hasNumbers(addressController.text);
-                        bool captionValid = hasNumbers(captionController.text);
-                        if (!nameValid && !addressValid && captionValid) {
+                        bool rejectName = hasNumbers(nameController.text);
+                        bool rejectAddress = hasNumbers(addressController.text);
+                        bool rejectCaption = hasNumbers(captionController.text);
+                        if (!rejectName && !rejectAddress && !rejectCaption) {
                           previewDialog();
                         } else {
                           showToast('Invalid input! Cannot Procceed');
