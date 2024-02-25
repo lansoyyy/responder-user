@@ -9,6 +9,7 @@ import 'package:responder/screens/pages/weather_page.dart';
 import 'package:responder/widgets/drawer_widget.dart';
 
 import '../widgets/text_widget.dart';
+import 'pages/history_page.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -83,6 +84,15 @@ class HomeScreen extends StatelessWidget {
                       builder: (context) => const AddReportPage()));
                 },
                 child: card('REPORT ACCIDENT', Icons.report)),
+            const SizedBox(
+              height: 20,
+            ),
+            GestureDetector(
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const HistoryReportTab()));
+                },
+                child: card('MY HISTORY REPORT', Icons.history)),
             const SizedBox(
               height: 20,
             ),
