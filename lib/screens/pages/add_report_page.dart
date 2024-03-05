@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -269,6 +271,10 @@ class _AddReportPageState extends State<AddReportPage> {
     );
   }
 
+  final Stream<DocumentSnapshot> userData = FirebaseFirestore.instance
+      .collection('Users')
+      .doc(FirebaseAuth.instance.currentUser!.uid)
+      .snapshots();
   bool hasNumbers(String input) {
     // Define a regular expression to match any digit
     RegExp digitRegExp = RegExp(r'\d');
@@ -347,33 +353,48 @@ class _AddReportPageState extends State<AddReportPage> {
                 fontSize: 18,
               ),
             ),
-            TextButton(
-              onPressed: () {
-                if (nameController.text == '' ||
-                    contactnumberController.text == '' ||
-                    addressController.text == '' ||
-                    captionController.text == '') {
-                  showToast('Please complete all fields!');
-                } else {
-                  addReport(
-                      nameController.text,
-                      contactnumberController.text,
-                      addressController.text,
-                      captionController.text,
-                      idImageURL,
-                      lat,
-                      long,
-                      selected);
-                  showToast('Reported succesfully!');
-                  Navigator.of(context).pushReplacement(MaterialPageRoute(
-                      builder: (context) => const TrackingTab()));
-                }
-              },
-              child: TextWidget(
-                text: 'Send',
-                fontSize: 18,
-              ),
-            ),
+            StreamBuilder<DocumentSnapshot>(
+                stream: userData,
+                builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+                  if (!snapshot.hasData) {
+                    return const SizedBox();
+                  } else if (snapshot.hasError) {
+                    return const Center(child: Text('Something went wrong'));
+                  } else if (snapshot.connectionState ==
+                      ConnectionState.waiting) {
+                    return const SizedBox();
+                  }
+                  dynamic data = snapshot.data;
+                  return TextButton(
+                    onPressed: () {
+                      if (nameController.text == '' ||
+                          contactnumberController.text == '' ||
+                          addressController.text == '' ||
+                          captionController.text == '') {
+                        showToast('Please complete all fields!');
+                      } else {
+                        addReport(
+                            nameController.text,
+                            contactnumberController.text,
+                            addressController.text,
+                            captionController.text,
+                            idImageURL,
+                            lat,
+                            long,
+                            selected,
+                            data['front'],
+                            data['back']);
+                        showToast('Reported succesfully!');
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(
+                            builder: (context) => const TrackingTab()));
+                      }
+                    },
+                    child: TextWidget(
+                      text: 'Send',
+                      fontSize: 18,
+                    ),
+                  );
+                }),
           ],
         );
       },
