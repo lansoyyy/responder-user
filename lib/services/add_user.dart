@@ -17,6 +17,8 @@ Future addUser(name, contactnumber, address, email, front, back) async {
     'contactnumber': contactnumber,
     'front': front,
     'back': back,
+    'lat': 0,
+    'long': 0
   };
 
   await docUser.set(json);
