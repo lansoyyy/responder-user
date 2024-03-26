@@ -27,6 +27,7 @@ class _MapTabState extends State<MapTab> {
     determinePosition();
 
     getMyReports();
+    getReporterLocation();
     Geolocator.getCurrentPosition().then((position) {
       setState(() {});
       setState(() {
@@ -76,6 +77,48 @@ class _MapTabState extends State<MapTab> {
     setState(() {});
   }
 
+  Set<Polyline> poly = {};
+
+  getReporterLocation() async {
+    for (int i = 0; i < 1; i++) {
+      Timer.periodic(const Duration(seconds: 5), (timer) {
+        FirebaseFirestore.instance
+            .collection('Users')
+            .where('userId', isEqualTo: widget.docId)
+            .get()
+            .then((QuerySnapshot querySnapshot) async {
+          for (var doc in querySnapshot.docs) {
+            setState(() {
+              markers.clear();
+
+              poly.clear();
+              markers.add(Marker(
+                markerId: MarkerId(doc['userId']),
+                icon: BitmapDescriptor.defaultMarker,
+                position: LatLng(doc['lat'], doc['long']),
+                infoWindow: InfoWindow(
+                  title: 'Address: ${doc['address']}',
+                  snippet: 'Reporter Name: ${doc['name']}',
+                ),
+              ));
+
+              poly.add(
+                Polyline(
+                    color: Colors.red,
+                    width: 2,
+                    points: [
+                      LatLng(lat, long),
+                      LatLng(doc['lat'], doc['long']),
+                    ],
+                    polylineId: PolylineId(doc['userId'])),
+              );
+            });
+          }
+        });
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final Stream<DocumentSnapshot> userData = FirebaseFirestore.instance
@@ -102,7 +145,10 @@ class _MapTabState extends State<MapTab> {
                 Expanded(
                   child: SizedBox(
                     child: GoogleMap(
+                      polylines: poly,
                       markers: markers,
+                      myLocationButtonEnabled: true,
+                      myLocationEnabled: true,
                       mapType: MapType.normal,
                       initialCameraPosition: kGooglePlex,
                       onMapCreated: (GoogleMapController controller) {

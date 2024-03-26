@@ -28,7 +28,7 @@ class HistoryReportTab extends StatelessWidget {
                 stream: FirebaseFirestore.instance
                     .collection('Reports')
                     .where('userId',
-                        isNotEqualTo: FirebaseAuth.instance.currentUser!.uid)
+                        isEqualTo: FirebaseAuth.instance.currentUser!.uid)
                     .snapshots(),
                 builder: (BuildContext context,
                     AsyncSnapshot<QuerySnapshot> snapshot) {
